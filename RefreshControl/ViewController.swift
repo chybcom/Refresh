@@ -9,12 +9,36 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    
+    lazy var refreshControl: RefreshControl = RefreshControl()
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        loadData()
     }
-
-
+    
+    
+    @objc func loadData() -> () {
+        
+        refreshControl.beginRefreshing()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            print("结束刷新")
+            self.refreshControl.endRefreshing()
+        }
+        
+        
+    }
+    
+    
 }
+
+
 
